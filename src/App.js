@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import firebase from 'firebase';
-import { GameGrid } from './Components/game-grid/game-grid.component.jsx'
+import { GameGrid } from './Components/game-grid/game-grid.component.jsx';
+import { Stats } from './Components/stats/stats.component.jsx';
+import { Header } from './Components/header/header.component.jsx';
 import './App.css';
 import config from './config.js'
 
 class App extends Component {
   constructor (props) {
     super(props);
+    // Init or call firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
    }else {
@@ -15,21 +18,29 @@ class App extends Component {
 
     this.state = {
       fields: [],
-      turn: 'O',
-      searchField: '',
-      title: '',
+      turn: "O",
       won: false,
       winner: "",
       winnerClass: "",
       stats: {
-        wins_O: 0,
-        wins_X: 0,
-        draws: 0
+        "wins_O": 0,
+        "wins_X": 0,
+        "draws": 0,
       }
     }
     this.onTick = this.onTick.bind(this)
   }
 
+  
+  componentDidMount() {
+    let ref = firebase.database().ref('/');
+    ref.on('value', snapshot => {
+      const state = snapshot.val();
+      this.setState(state, () =>{
+        this.checkWin();
+      });
+    });
+  }
   onTick = (id) => {
     //firebase.database().ref('/').set(this.state);
     if(!this.state.won){
@@ -50,16 +61,6 @@ class App extends Component {
     }
     }
   }
-  componentDidMount() {
-    let ref = firebase.database().ref('/');
-    ref.on('value', snapshot => {
-      const state = snapshot.val();
-      this.setState(state, () =>{
-        this.checkWin();
-      });
-    });
-  }
-
   checkWin = () => {
     let fields = this.state.fields.slice();
     for(let i = 1; i<= fields.length; i += 3){
@@ -140,23 +141,13 @@ class App extends Component {
       <div className="App">
         <div class="paper">
           <div class="lines">
-            <div class="text">
-              <h1 class="heading">Tic Tac Toe</h1>
-              {this.state.won === false &&
-                <p class="turn-indicator">It is {this.state.turn}'s turn</p>
-              }
-            </div>
+            <Header won={this.state.won} turn={this.state.turn} />
             <div class="content">
               <GameGrid onTic={this.onTick} strikeClass={this.state.winnerClass} fields={this.state.fields}></GameGrid>
                 {this.state.won === true &&
                   <button class="btn-clearField" onClick={this.clearGameField} >Clear Field</button>
                 }
-              <div class="stats">
-                <h1>Stats</h1>
-                <h3>O-wins: {this.state.stats.wins_O}</h3>
-                <h3>X-wins: {this.state.stats.wins_X}</h3>
-                <h3>Draws: {this.state.stats.draws}</h3>
-              </div>
+              <Stats stats={this.state.stats} />
             </div>
           </div>
           <div class="holes hole-top"></div>

@@ -99,17 +99,7 @@ body {
 .hole-bottom {
   bottom: 10%;
 }
-.heading{
-  font-size: 3rem;
-}
-.turn-indicator {
-  font-size: 2rem;
-}
-.stats{
-  position: absolute;
-  top: 52rem;
-  padding-bottom: 4rem;
-}
+
 .btn-clearField{
   width: 12rem;
   height: 4rem;

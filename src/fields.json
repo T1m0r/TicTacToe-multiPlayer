@@ -1,3 +1,4 @@
+
 [
     {
         "id": 1,
@@ -54,4 +55,15 @@
         "column": 3,
         "symbol": ""
     }
-]
+],
+turn: "O",
+searchField: "",
+title: "",
+won: false,
+winner: "",
+winnerClass: "",
+stats: {
+  "wins_O": 0,
+  "wins_X": 0,
+  "draws": 0,
+Warning: "Depricated file previouse state",
