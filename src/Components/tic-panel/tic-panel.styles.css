@@ -4,6 +4,9 @@
     border: 3px solid black;
     font-size: 6rem;
     background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .panel_1{
     border-top: none;

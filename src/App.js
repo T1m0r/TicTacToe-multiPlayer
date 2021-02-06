@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
-//import TicTacToeField from './Components/TicTacToeField/tictactoe.component.jsx'
+import firebase from 'firebase';
 import { GameGrid } from './Components/game-grid/game-grid.component.jsx'
 import './App.css';
-import fields_data from './fields.json';
+import config from './config.js'
 
 class App extends Component {
   constructor (props) {
     super(props);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+   }else {
+      firebase.app(); // if already initialized, use that one
+   }
 
     this.state = {
-      fields: fields_data,
+      fields: [],
       turn: 'O',
       searchField: '',
       title: '',
@@ -22,13 +27,11 @@ class App extends Component {
         draws: 0
       }
     }
-    // Rule of Thumb use arrow function always when not a react function
-    // Needed if we don't use ES6 arrow functions
-    //this.handleChange = this.handleChange.bind(this); // setting the context of the "this keyword"
     this.onTick = this.onTick.bind(this)
   }
 
   onTick = (id) => {
+    //firebase.database().ref('/').set(this.state);
     if(!this.state.won){
       let fid = id -1
       let fieldsState = this.state.fields.slice();
@@ -40,10 +43,21 @@ class App extends Component {
         }else{
           turn_sym = "O"
         }
-      this.setState({fields: fieldsState, turn: turn_sym})
+      this.setState({fields: fieldsState, turn: turn_sym}, () => {
+        firebase.database().ref('/').set(this.state);
+      });
       this.checkWin()
     }
     }
+  }
+  componentDidMount() {
+    let ref = firebase.database().ref('/');
+    ref.on('value', snapshot => {
+      const state = snapshot.val();
+      this.setState(state, () =>{
+        this.checkWin();
+      });
+    });
   }
 
   checkWin = () => {
@@ -109,13 +123,15 @@ class App extends Component {
     }
   }
   clearGameField = () =>{
-    console.log(fields_data)
-    let empty_board = fields_data.slice()
+    console.log(this.state.fields.slice())
+    let empty_board = this.state.fields.slice()
     if(this.state.won === true){
       for(let i=0; i < empty_board.length; i++){
         empty_board[i].symbol = ""
       }
-      this.setState({fields: empty_board, won: false, winner: "", winnerClass: ""})
+      this.setState({fields: empty_board, won: false, winner: "", winnerClass: ""}, () => {
+        firebase.database().ref('/').set(this.state);
+      });
     }
   }
 
@@ -125,7 +141,10 @@ class App extends Component {
         <div class="paper">
           <div class="lines">
             <div class="text">
-              <h1>Tic Tac Toe</h1>
+              <h1 class="heading">Tic Tac Toe</h1>
+              {this.state.won === false &&
+                <p class="turn-indicator">It is {this.state.turn}'s turn</p>
+              }
             </div>
             <div class="content">
               <GameGrid onTic={this.onTick} strikeClass={this.state.winnerClass} fields={this.state.fields}></GameGrid>

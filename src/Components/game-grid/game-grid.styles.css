@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: auto auto auto;
     position: absolute;
-    top: 10rem;
+    top: 12rem;
 }
 .strikethrough{
     display: none;
