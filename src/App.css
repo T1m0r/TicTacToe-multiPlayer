@@ -99,3 +99,20 @@ body {
 .hole-bottom {
   bottom: 10%;
 }
+.stats{
+  position: absolute;
+  top: 52rem;
+  padding-bottom: 4rem;
+}
+.btn-clearField{
+  width: 12rem;
+  height: 4rem;
+  font-size: 2rem;
+  top: 28rem;
+  position: relative;
+}
+.footer{
+  position: absolute;
+  bottom: 0px;
+  right: 2rem;
+}

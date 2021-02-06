@@ -130,14 +130,23 @@ class App extends Component {
             <div class="content">
               <GameGrid onTic={this.onTick} strikeClass={this.state.winnerClass} fields={this.state.fields}></GameGrid>
                 {this.state.won === true &&
-                  <button onClick={this.clearGameField} >Clear Field</button>
+                  <button class="btn-clearField" onClick={this.clearGameField} >Clear Field</button>
                 }
+              <div class="stats">
+                <h1>Stats</h1>
+                <h3>O-wins: {this.state.stats.wins_O}</h3>
+                <h3>X-wins: {this.state.stats.wins_X}</h3>
+                <h3>Draws: {this.state.stats.draws}</h3>
+              </div>
             </div>
           </div>
           <div class="holes hole-top"></div>
           <div class="holes hole-middle"></div>
           <div class="holes hole-bottom"></div>
         </div>
+        <footer class="footer">
+          <p>@T1m0r 2021</p>
+        </footer>
       </div>
     );
   }
