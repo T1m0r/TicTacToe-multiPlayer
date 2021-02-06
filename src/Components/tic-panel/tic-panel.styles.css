@@ -1,0 +1,35 @@
+.tic-panel{
+    width: 6rem;
+    height: 6rem;
+    border: 3px solid black;
+    font-size: 3rem;
+    background: transparent;
+}
+.panel_1{
+    border-top: none;
+    border-left: none;
+}
+.panel_2{
+    border-top: none;
+}
+.panel_3 {
+    border-top: none;
+    border-right: none;
+}
+.panel_4{
+    border-left: none;
+}
+.panel_6{
+    border-right: none;
+}
+.panel_7{
+    border-left: none;
+    border-bottom: none;
+}
+.panel_8{
+    border-bottom: none;
+}
+.panel_9{
+    border-right: none;
+    border-bottom: none;
+}
