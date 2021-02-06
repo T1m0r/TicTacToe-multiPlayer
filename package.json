@@ -1,6 +1,6 @@
 {
-  "name": "game_share",
-  "homepage": "http://t1m0r.github.io/TicTacToe",
+  "name": "TicTacToe-multiPlayer",
+  "homepage": "https://t1m0r.github.io/TicTacToe-multiPlayer/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
